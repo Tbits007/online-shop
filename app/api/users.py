@@ -15,7 +15,7 @@ def get_users():
     pass
 
 
-@router.post("/create_user")
+@router.post("/create_user/")
 def create_user():
     """
     Создать нового пользователя.
@@ -23,7 +23,7 @@ def create_user():
     pass
 
 
-@router.get("/me")
+@router.get("/me/")
 def get_current_user():
     """
     Получить информацию о пользователе по ID.
@@ -31,7 +31,7 @@ def get_current_user():
     pass
 
 
-@router.put("/{id}")
+@router.put("/{id}/")
 def update_user():
     """
     Обновить информацию о пользователе по ID.
@@ -39,9 +39,17 @@ def update_user():
     pass
 
 
-@router.delete("/{id}")
+@router.delete("/{id}/")
 def delete_user():
     """
     Удалить пользователя по ID.
+    """
+    pass
+
+
+@router.get("/{id}/orders/")
+def get_user_orders():
+    """
+    Получить все заказы пользователя по его ID.
     """
     pass
