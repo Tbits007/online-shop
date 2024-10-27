@@ -1,4 +1,10 @@
-from fastapi import APIRouter
+from uuid import UUID
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.database import get_session
+from app.schemas.categories_schemas import CategoryCreateSchema, CategoryResponseSchema, CategoryUpdateSchema
+from app.schemas.products_schemas import ProductResponseSchema
+from app.services.categories_service import CategoryService
 
 
 router = APIRouter(
@@ -8,49 +14,56 @@ router = APIRouter(
 
 
 @router.post("/create_category/")
-def create_category():
+async def create_category(data: CategoryCreateSchema, session: AsyncSession = Depends(get_session)) -> CategoryResponseSchema:
     """
     Создать новую категорию.
     """
-    pass
+    category_service = CategoryService(session)
+    return await category_service.create_category(data)
 
 
 @router.get("/")
-def get_categories():
+async def get_categories(session: AsyncSession = Depends(get_session)) -> list[CategoryResponseSchema]:
     """
     Получить список всех категорий.
     """
-    pass
+    category_service = CategoryService(session)
+    return await category_service.get_all_categories()
 
 
 @router.get("/{id}/")
-def get_category():
+async def get_category(category_id: UUID, session: AsyncSession = Depends(get_session)) -> CategoryResponseSchema:
     """
     Получить информацию о категории по ID.
     """
-    pass
+    category_service = CategoryService(session)
+    return await category_service.get_category_by_id(category_id)
+
 
 
 @router.put("/{id}/")
-def update_category():
+async def update_category(category_id: UUID, updated_data: CategoryUpdateSchema, session: AsyncSession = Depends(get_session)) -> CategoryResponseSchema:
     """
     Обновить информацию о категории по ID.
     """
-    pass
+    category_service = CategoryService(session)
+    return await category_service.update_category(category_id, updated_data.model_dump())
 
 
-@router.put("/{id}/")
-def delete_category():
+@router.delete("/{id}/")
+async def delete_category(category_id: UUID, session: AsyncSession = Depends(get_session)) -> None:
     """
     Удалить категорию по ID.
     """
-    pass
+    category_service = CategoryService(session)
+    return await category_service.delete_category(category_id)
 
 
 @router.get("/{id}/products/")
-def get_category_products():
+async def get_category_products(category_id: UUID, session: AsyncSession = Depends(get_session)) -> list[ProductResponseSchema]:
     """
     Получить все продукты в категории по ее ID.
     """
-    pass
+    category_service = CategoryService(session)
+    return await category_service.get_products_by_category(category_id)
 

@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
-from app.database import async_session_maker, get_session
-from app.repositories.users_repo import UsersRepository
+from app.database import get_session
 from uuid import UUID
 from app.schemas.orders_schemas import OrderResponseSchema
 from app.schemas.users_schemas import UserCreateSchema, UserResponseSchema, UserUpdateSchema

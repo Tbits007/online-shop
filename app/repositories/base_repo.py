@@ -1,4 +1,5 @@
 from typing import Generic, Type, TypeVar
+from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -24,7 +25,7 @@ class BaseRepository(Generic[T]):
         return result.scalars().all() # [<app.domain.users.Users object at 0x0000018CBC3CDD00>, ...]
 
 
-    async def get_by_id(self, entity_id: int) -> T | None:
+    async def get_by_id(self, entity_id: UUID) -> T | None:
         """
         Получить запись по ID.
         """
@@ -51,7 +52,7 @@ class BaseRepository(Generic[T]):
         return entity
 
 
-    async def update(self, entity_id: int, updated_data: dict) -> T:
+    async def update(self, entity_id: UUID, updated_data: dict) -> T:
         """
         Обновить существующую запись.
         """
@@ -67,7 +68,7 @@ class BaseRepository(Generic[T]):
         return entity
     
 
-    async def delete(self, entity_id: int) -> None:
+    async def delete(self, entity_id: UUID) -> None:
         """
         Удалить запись по ID.
         """

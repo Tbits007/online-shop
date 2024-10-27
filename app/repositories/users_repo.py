@@ -1,4 +1,5 @@
 from typing import Type
+from uuid import UUID
 
 from sqlalchemy import select
 from app.domain.orders import Orders
@@ -10,7 +11,7 @@ class UsersRepository(BaseRepository[Users]):
     model: Type[Users] = Users
 
 
-    async def get_orders_by_user_id(self, user_id: int) -> list[Orders]:
+    async def get_orders_by_user_id(self, user_id: UUID) -> list[Orders]:
         """
         Получить все заказы пользователя по его ID.
         """
