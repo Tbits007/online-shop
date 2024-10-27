@@ -3,6 +3,24 @@ from uuid import UUID
 from decimal import Decimal
 
 
+class ProductCreateSchema(BaseModel):
+    name: str
+    description: str
+    price: float
+    currency: str
+    stock: int
+    category_id: UUID
+
+
+class ProductUpdateSchema(BaseModel):
+    name: str
+    description: str
+    price: float
+    currency: str
+    stock: int
+    category_id: UUID
+
+
 class ProductResponseSchema(BaseModel):
     id: UUID
     name: str
@@ -11,3 +29,6 @@ class ProductResponseSchema(BaseModel):
     currency: str
     stock: int
     category_id: UUID
+
+    class Config:
+        from_attributes = True

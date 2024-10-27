@@ -1,4 +1,9 @@
-from fastapi import APIRouter
+from uuid import UUID
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.database import get_session
+from app.schemas.orders_schemas import OrderCreateSchema, OrderResponseSchema, OrderUpdateSchema, StatusChoice
+from app.services.orders_service import OrderService
 
 
 router = APIRouter(
@@ -8,48 +13,54 @@ router = APIRouter(
 
 
 @router.post("/create_order/")
-def create_order():
+async def create_order(data: OrderCreateSchema, session: AsyncSession = Depends(get_session)) -> OrderResponseSchema:
     """
     Создать новый заказ.
     """
-    pass
+    order_service = OrderService(session)
+    return await order_service.create_order(data)
 
 
 @router.get("/")
-def get_orders():
+async def get_orders(session: AsyncSession = Depends(get_session)) -> list[OrderResponseSchema]:
     """
     Получить список всех заказов.
     """
-    pass
+    order_service = OrderService(session)
+    return await order_service.get_all_orders()
 
 
 @router.get("/{id}/")
-def get_order():
+async def get_order(order_id: UUID, session: AsyncSession = Depends(get_session)) -> OrderResponseSchema:
     """
     Получить информацию о заказе по ID.
     """
-    pass
+    order_service = OrderService(session)
+    return await order_service.get_order_by_id(order_id)
 
 
 @router.put("/{id}/")
-def update_order():
+async def update_order(order_id: UUID, updated_data: OrderUpdateSchema, session: AsyncSession = Depends(get_session)) -> OrderResponseSchema:
     """
     Обновить информацию о заказе по ID.
     """
-    pass
+    order_service = OrderService(session)
+    return await order_service.update_order(order_id, updated_data)
 
 
 @router.delete("/{id}/")
-def delete_order():
+async def delete_order(order_id: UUID, session: AsyncSession = Depends(get_session)) -> None:
     """
     Удалить заказ по ID.
     """
-    pass
+    order_service = OrderService(session)
+    return await order_service.delete_order(order_id)
 
 
 @router.get("/status/{status}/")
-def get_orders_by_status():
+async def get_orders_by_status(status: StatusChoice, session: AsyncSession = Depends(get_session)) -> list[OrderResponseSchema]:
     """
     Получить заказы по статусу (например, "shipped", "delivered", "pending").
     """
-    pass
+    order_service = OrderService(session)
+    return await order_service.get_orders_by_status(status)

@@ -4,20 +4,30 @@ from enum import Enum
 from datetime import datetime
 
 
-class Status(str, Enum):
+class StatusChoice(str, Enum):
     shipped = "shipped"
     delivered = "delivered"
     pending = "pending"
 
 
 class OrderCreateSchema(BaseModel):
-    pass
+    user_id: UUID
+    status: StatusChoice
+    product_id: UUID
+    total_price: float
+
+
+class OrderUpdateSchema(BaseModel):
+    user_id: UUID
+    status: StatusChoice
+    product_id: UUID
+    total_price: float
 
 
 class OrderResponseSchema(BaseModel):
     id: UUID
     user_id: UUID
-    status: Status
+    status: StatusChoice
     product_id: UUID
     total_price: float
     created_at: datetime
