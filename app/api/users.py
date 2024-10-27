@@ -1,27 +1,22 @@
 from fastapi import APIRouter
-from pydantic import BaseModel, EmailStr # это убрать !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
 from app.database import async_session_maker, get_session
 from app.repositories.users_repo import UsersRepository
 from uuid import UUID
+from app.schemas.orders_schemas import OrderResponseSchema
+from app.schemas.users_schemas import UserCreateSchema, UserResponseSchema, UserUpdateSchema
 from app.services.users_service import UserService
+
 
 router = APIRouter(
     prefix="/users",
     tags=["Users"],
 )
 
-# НУЖНЫ PYDANTIC MODELS ДЛЯ ВАЛИДАЦИИ ОТВЕТА !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-class UserCreate(BaseModel):
-    name: str
-    email: EmailStr
-    password: str
-    address: str
-
     
 @router.get("/")
-async def get_users(session: AsyncSession = Depends(get_session)):
+async def get_users(session: AsyncSession = Depends(get_session)) -> list[UserResponseSchema]:
     """
     Получить список всех пользователей.
     """    
@@ -30,46 +25,46 @@ async def get_users(session: AsyncSession = Depends(get_session)):
 
 
 @router.post("/create_user/")
-async def create_user(user_data: UserCreate, session: AsyncSession = Depends(get_session)):
+async def create_user(user_data: UserCreateSchema, session: AsyncSession = Depends(get_session)) -> UserResponseSchema:
     """
     Создать нового пользователя.
     """
-    print(user_data)
     user_service = UserService(session)
     return await user_service.create_user(user_data)
 
 
 @router.get("/{id}/")
-async def get_current_user(id: UUID, session: AsyncSession = Depends(get_session)):
+async def get_user_by_id(user_id: UUID, session: AsyncSession = Depends(get_session)) -> UserResponseSchema:
     """
     Получить информацию о пользователе по ID.
     """       
-    async with async_session_maker() as session:
-        users_repo = UsersRepository(session)
-        result = await users_repo.get_by_id(id)
-        return result
+    user_service = UserService(session)
+    return await user_service.get_user_by_id(user_id)
 
 
 
 @router.put("/{id}/")
-async def update_user(session: AsyncSession = Depends(get_session)):
+async def update_user(user_id: UUID, user_data: UserUpdateSchema, session: AsyncSession = Depends(get_session)) -> UserResponseSchema:
     """
     Обновить информацию о пользователе по ID.
     """
-    pass
+    user_service = UserService(session)
+    return await user_service.update_user(user_id, user_data.model_dump())
 
 
 @router.delete("/{id}/")
-async def delete_user(session: AsyncSession = Depends(get_session)):
+async def delete_user(user_id: UUID, session: AsyncSession = Depends(get_session)) -> None:
     """
     Удалить пользователя по ID.
     """
-    pass
+    user_service = UserService(session)
+    return await user_service.delete_user(user_id)    
 
 
 @router.get("/{id}/orders/")
-async def get_user_orders(session: AsyncSession = Depends(get_session)):
+async def get_user_orders(user_id: UUID, session: AsyncSession = Depends(get_session)) -> list[OrderResponseSchema]:
     """
     Получить все заказы пользователя по его ID.
     """
-    pass
+    user_service = UserService(session)
+    return await user_service.get_user_orders(user_id)

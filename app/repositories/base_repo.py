@@ -1,4 +1,4 @@
-from typing import Generic, Type, TypeVar, List, Optional
+from typing import Generic, Type, TypeVar
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,7 +14,7 @@ class BaseRepository(Generic[T]):
         self.session = session
 
 
-    async def get_all(self) -> List[T]:
+    async def get_all(self) -> list[T]:
         """
         Получить все записи.
         """
@@ -24,7 +24,7 @@ class BaseRepository(Generic[T]):
         return result.scalars().all() # [<app.domain.users.Users object at 0x0000018CBC3CDD00>, ...]
 
 
-    async def get_by_id(self, entity_id: int) -> Optional[T]:
+    async def get_by_id(self, entity_id: int) -> T | None:
         """
         Получить запись по ID.
         """
@@ -38,29 +38,34 @@ class BaseRepository(Generic[T]):
         """
         Создать новую запись.
         """
-        async with self.session.begin():
-            self.session.add(entity)
+        # Проверяем наличие записи
+        existing_entity = await self.get_by_id(entity.id)
+    
+        if existing_entity is not None:
+            # Запись уже существует
+            return existing_entity
 
-        await self.session.commit() 
+        # Добавляем новую запись, так как такой ещё нет
+        self.session.add(entity)
+        await self.session.commit()
         return entity
+
 
     async def update(self, entity_id: int, updated_data: dict) -> T:
         """
         Обновить существующую запись.
         """
-        async with self.session.begin():
-            stmt = select(self.model).filter(self.model.id == entity_id)
-            result = await self.session.execute(stmt)
-            obj = result.scalar_one_or_none()
+        entity = await self.get_by_id(entity_id)
 
-            if obj is None:
-                raise ValueError("Object is not found")
+        if entity is None:
+            raise ValueError("Object is not found")
 
-            for key, value in updated_data.items():
-                setattr(obj, key, value)
+        for key, value in updated_data.items():
+            setattr(entity, key, value)
 
         await self.session.commit()
-        return obj
+        return entity
+    
 
     async def delete(self, entity_id: int) -> None:
         """
@@ -71,7 +76,5 @@ class BaseRepository(Generic[T]):
         if entity is None:
             raise ValueError("Object is not found")
            
-        async with self.session.begin():
-            await self.session.delete(entity)  # Удаляем сущность
-
+        await self.session.delete(entity)
         await self.session.commit()
