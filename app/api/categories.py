@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database import get_session
+from app.infrastructure.database import get_session
 from app.schemas.categories_schemas import CategoryCreateSchema, CategoryResponseSchema, CategoryUpdateSchema
 from app.schemas.products_schemas import ProductResponseSchema
 from app.services.categories_service import CategoryService

@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database import get_session
+from app.infrastructure.database import get_session
 from app.schemas.orders_schemas import OrderCreateSchema, OrderResponseSchema, OrderUpdateSchema, StatusChoice
 from app.services.orders_service import OrderService
 
@@ -55,7 +55,7 @@ async def delete_order(order_id: UUID, session: AsyncSession = Depends(get_sessi
     """
     order_service = OrderService(session)
     await order_service.delete_order(order_id)
-    return {"detail": "Order deleted successfully"}
+    return {"detail": "Order deleted successfully"} 
 
 
 @router.get("/status/{status}/")

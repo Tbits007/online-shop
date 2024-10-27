@@ -2,7 +2,7 @@ from uuid import UUID
 from fastapi import APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
-from app.database import get_session
+from app.infrastructure.database import get_session
 from app.schemas.orders_schemas import OrderResponseSchema
 from app.schemas.products_schemas import ProductCreateSchema, ProductResponseSchema, ProductUpdateSchema
 from app.services.products_service import ProductService

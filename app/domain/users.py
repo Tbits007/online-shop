@@ -1,7 +1,7 @@
 import uuid
 from sqlalchemy import text
 from sqlalchemy.orm import Mapped, mapped_column
-from app.database import Base
+from app.infrastructure.database import Base
 from sqlalchemy.dialects.postgresql import UUID
 
 
