@@ -1,6 +1,5 @@
 from typing import Type
 from uuid import UUID
-
 from sqlalchemy import select
 from app.domain.orders import Orders
 from app.domain.users import Users

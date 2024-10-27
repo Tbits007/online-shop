@@ -49,12 +49,13 @@ async def update_order(order_id: UUID, updated_data: OrderUpdateSchema, session:
 
 
 @router.delete("/{id}/")
-async def delete_order(order_id: UUID, session: AsyncSession = Depends(get_session)) -> None:
+async def delete_order(order_id: UUID, session: AsyncSession = Depends(get_session)) -> dict:
     """
     Удалить заказ по ID.
     """
     order_service = OrderService(session)
-    return await order_service.delete_order(order_id)
+    await order_service.delete_order(order_id)
+    return {"detail": "Order deleted successfully"}
 
 
 @router.get("/status/{status}/")

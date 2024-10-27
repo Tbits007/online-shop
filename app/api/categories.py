@@ -51,12 +51,13 @@ async def update_category(category_id: UUID, updated_data: CategoryUpdateSchema,
 
 
 @router.delete("/{id}/")
-async def delete_category(category_id: UUID, session: AsyncSession = Depends(get_session)) -> None:
+async def delete_category(category_id: UUID, session: AsyncSession = Depends(get_session)) -> dict:
     """
     Удалить категорию по ID.
     """
     category_service = CategoryService(session)
-    return await category_service.delete_category(category_id)
+    await category_service.delete_category(category_id)
+    return {"detail": "Category deleted successfully"}
 
 
 @router.get("/{id}/products/")

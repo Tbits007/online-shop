@@ -1,4 +1,3 @@
-from fastapi import APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
 from app.database import get_session
@@ -52,12 +51,13 @@ async def update_user(user_id: UUID, user_data: UserUpdateSchema, session: Async
 
 
 @router.delete("/{id}/")
-async def delete_user(user_id: UUID, session: AsyncSession = Depends(get_session)) -> None:
+async def delete_user(user_id: UUID, session: AsyncSession = Depends(get_session)) -> dict:
     """
     Удалить пользователя по ID.
     """
     user_service = UserService(session)
-    return await user_service.delete_user(user_id)    
+    await user_service.delete_user(user_id)    
+    return {"detail": "User deleted successfully"}
 
 
 @router.get("/{id}/orders/")
