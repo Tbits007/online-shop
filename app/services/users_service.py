@@ -28,10 +28,11 @@ class UserService:
 
     async def create_user(self, data: UserCreateSchema) -> Users:
         user = Users(
-            name=data.name,
             email=data.email,
-            password=data.password,
-            address=data.address
+            hashed_password=data.password,
+            is_active=data.is_active,
+            is_superuser=data.is_superuser,
+            is_verified=data.is_verified
         )
         return await self.user_repo.create(user)
     
