@@ -1,1 +1,13 @@
-# API ROUTES
+from fastapi import APIRouter
+from app.infrastructure.auth.dependencies.FastAPIUsersObject import fastapi_users
+from app.infrastructure.auth.dependencies.backend import authentication_backend
+
+
+router = APIRouter(
+    prefix="/auth",
+    tags=["Auth"],
+)
+
+router.include_router(
+    fastapi_users.get_auth_router(authentication_backend),
+)
