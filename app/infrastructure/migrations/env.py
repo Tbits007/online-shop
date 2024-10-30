@@ -10,6 +10,8 @@ from app.domain.categories import Categories
 from app.domain.orders import Orders
 from app.domain.products import Products
 from app.domain.users import Users
+from app.infrastructure.auth.models import AccessToken
+
 from app.infrastructure.config import settings
 
 # this is the Alembic Config object, which provides
