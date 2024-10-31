@@ -1,8 +1,15 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+from fastapi.security import HTTPBearer
 from app.api import users, categories, products, orders
 from app.infrastructure.auth import auth
 
-app = FastAPI()
+
+http_bearer = HTTPBearer(auto_error=False)
+
+
+app = FastAPI(
+    dependencies=[Depends(http_bearer)],
+)
 
 # Подключение маршрутов
 app.include_router(auth.router)
