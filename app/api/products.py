@@ -6,7 +6,8 @@ from app.infrastructure.database import get_session
 from app.schemas.orders_schemas import OrderResponseSchema
 from app.schemas.products_schemas import ProductCreateSchema, ProductResponseSchema, ProductUpdateSchema
 from app.services.products_service import ProductService
-
+from fastapi_cache.decorator import cache
+from app.infrastructure.utils import clear_cache
 
 router = APIRouter(
     prefix="/products",
@@ -20,10 +21,13 @@ async def create_product(data: ProductCreateSchema, session: AsyncSession = Depe
     Создать новый продукт.
     """
     product_service = ProductService(session)
-    return await product_service.create_product(data)
-    
+    result = await product_service.create_product(data)
+    await clear_cache()
+    return result
+
 
 @router.get("/")
+@cache(expire=60)
 async def get_products(session: AsyncSession = Depends(get_session)) -> list[ProductResponseSchema]:
     """
     Получить список всех продуктов.
@@ -33,6 +37,7 @@ async def get_products(session: AsyncSession = Depends(get_session)) -> list[Pro
 
 
 @router.get("/{id}/")
+@cache(expire=60)
 async def get_product(product_id: UUID, session: AsyncSession = Depends(get_session)) -> ProductResponseSchema:
     """
     Получить информацию о продукте по ID.
@@ -48,7 +53,9 @@ async def update_product(product_id: UUID, updated_data: ProductUpdateSchema, se
     """
     product_service = ProductService(session)
     updated_data = updated_data.model_dump(exclude_unset=True)
-    return await product_service.update_product(product_id, updated_data)
+    result = await product_service.update_product(product_id, updated_data)
+    await clear_cache()
+    return result
 
 
 @router.delete("/{id}/")
@@ -58,10 +65,12 @@ async def delete_product(product_id: UUID, session: AsyncSession = Depends(get_s
     """
     product_service = ProductService(session)
     await product_service.delete_product(product_id)
+    await clear_cache()
     return {"detail": "Product deleted successfully"}
 
 
 @router.get("/{id}/get_orders/")
+@cache(expire=60)
 async def get_orders_by_product(product_id: UUID, session: AsyncSession = Depends(get_session)) -> list[OrderResponseSchema]:
     """
     Получить все заказы по определенному товару.

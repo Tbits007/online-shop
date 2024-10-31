@@ -4,6 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.infrastructure.database import get_session
 from app.schemas.orders_schemas import OrderCreateSchema, OrderResponseSchema, OrderUpdateSchema, StatusChoice
 from app.services.orders_service import OrderService
+from fastapi_cache.decorator import cache
+from app.infrastructure.utils import clear_cache
 
 
 router = APIRouter(
@@ -18,10 +20,12 @@ async def create_order(data: OrderCreateSchema, session: AsyncSession = Depends(
     Создать новый заказ.
     """
     order_service = OrderService(session)
-    return await order_service.create_order(data)
-
+    result = await order_service.create_order(data)
+    await clear_cache()
+    return result
 
 @router.get("/")
+@cache(expire=60)
 async def get_orders(session: AsyncSession = Depends(get_session)) -> list[OrderResponseSchema]:
     """
     Получить список всех заказов.
@@ -31,6 +35,7 @@ async def get_orders(session: AsyncSession = Depends(get_session)) -> list[Order
 
 
 @router.get("/{id}/")
+@cache(expire=60)
 async def get_order(order_id: UUID, session: AsyncSession = Depends(get_session)) -> OrderResponseSchema:
     """
     Получить информацию о заказе по ID.
@@ -45,7 +50,9 @@ async def update_order(order_id: UUID, updated_data: OrderUpdateSchema, session:
     Обновить информацию о заказе по ID.
     """
     order_service = OrderService(session)
-    return await order_service.update_order(order_id, updated_data)
+    result = await order_service.update_order(order_id, updated_data)
+    await clear_cache()
+    return result
 
 
 @router.delete("/{id}/")
@@ -55,10 +62,12 @@ async def delete_order(order_id: UUID, session: AsyncSession = Depends(get_sessi
     """
     order_service = OrderService(session)
     await order_service.delete_order(order_id)
+    await clear_cache()
     return {"detail": "Order deleted successfully"} 
 
 
 @router.get("/status/{status}/")
+@cache(expire=60)
 async def get_orders_by_status(status: StatusChoice, session: AsyncSession = Depends(get_session)) -> list[OrderResponseSchema]:
     """
     Получить заказы по статусу (например, "shipped", "delivered", "pending").

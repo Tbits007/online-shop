@@ -1,3 +1,4 @@
+import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
 from app.domain.users import Users
@@ -9,6 +10,8 @@ from app.services.users_service import UserService
 from app.infrastructure.auth.dependencies.FastAPIUsersObject import fastapi_users
 from app.infrastructure.auth.dependencies.UserObject import current_active_superuser
 
+from fastapi_cache.decorator import cache
+
 router = APIRouter(
     prefix="/users",
     tags=["Users"],
@@ -18,8 +21,10 @@ router = APIRouter(
 router.include_router(
     fastapi_users.get_users_router(UserResponseSchema, UserUpdateSchema)
 )
+
     
 @router.get("/")
+@cache(expire=60)
 async def get_users(
     session: AsyncSession = Depends(get_session),
     user: Users = Depends(current_active_superuser)
@@ -31,7 +36,9 @@ async def get_users(
     return await user_service.get_all_users()
 
 
+
 @router.get("/{id}/orders/")
+@cache(expire=60)
 async def get_user_orders(
     user_id: UUID,
     session: AsyncSession = Depends(get_session),
