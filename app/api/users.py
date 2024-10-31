@@ -1,11 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
+from app.domain.users import Users
 from app.infrastructure.database import get_session
 from uuid import UUID
 from app.schemas.orders_schemas import OrderResponseSchema
 from app.schemas.users_schemas import UserResponseSchema, UserUpdateSchema
 from app.services.users_service import UserService
 from app.infrastructure.auth.dependencies.FastAPIUsersObject import fastapi_users
+from app.infrastructure.auth.dependencies.UserObject import current_active_superuser
 
 router = APIRouter(
     prefix="/users",
@@ -18,7 +20,10 @@ router.include_router(
 )
     
 @router.get("/")
-async def get_users(session: AsyncSession = Depends(get_session)) -> list[UserResponseSchema]:
+async def get_users(
+    session: AsyncSession = Depends(get_session),
+    user: Users = Depends(current_active_superuser)
+) -> list[UserResponseSchema]:
     """
     Получить список всех пользователей.
     """    
@@ -27,7 +32,11 @@ async def get_users(session: AsyncSession = Depends(get_session)) -> list[UserRe
 
 
 @router.get("/{id}/orders/")
-async def get_user_orders(user_id: UUID, session: AsyncSession = Depends(get_session)) -> list[OrderResponseSchema]:
+async def get_user_orders(
+    user_id: UUID,
+    session: AsyncSession = Depends(get_session),
+    user: Users = Depends(current_active_superuser)
+) -> list[OrderResponseSchema]:
     """
     Получить все заказы пользователя по его ID.
     """
