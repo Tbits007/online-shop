@@ -11,6 +11,8 @@ from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
 
 # uvicorn app.main:app --reload
+# celery -A app.tasks.celery:celery worker --loglevel=INFO --pool=solo
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
