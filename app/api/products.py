@@ -1,18 +1,32 @@
 from uuid import UUID
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
 from app.infrastructure.database import get_session
+from app.infrastructure.tasks.tasks import process_pic
 from app.schemas.orders_schemas import OrderResponseSchema
 from app.schemas.products_schemas import ProductCreateSchema, ProductResponseSchema, ProductUpdateSchema
 from app.services.products_service import ProductService
 from fastapi_cache.decorator import cache
 from app.infrastructure.utils import clear_cache
+import shutil
 
 router = APIRouter(
     prefix="/products",
     tags=["Products"],
 )
+
+
+@router.post("/add_image/")
+async def add_product_image(name: int, file: UploadFile):
+    img_path = f"app/infrastructure/frontend/static/images/{name}.webp"
+    
+    with open(img_path, "wb+") as file_object:
+        shutil.copyfileobj(file.file, file_object)
+
+    process_pic.delay(img_path)
+    await clear_cache()
+    return {"message": "Image uploaded"}
 
 
 @router.post("/create_product/")

@@ -12,7 +12,7 @@ from redis import asyncio as aioredis
 
 # uvicorn app.main:app --reload
 # celery -A app.tasks.celery:celery worker --loglevel=INFO --pool=solo
-
+# celery -A app.infrastructure.tasks.celery_app:celery flower
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
