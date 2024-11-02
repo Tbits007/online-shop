@@ -1,6 +1,8 @@
+# import asyncio
 import asyncio
 from datetime import datetime
 import json
+import os
 import pytest
 from sqlalchemy import insert
 from app.infrastructure.database import Base, async_session_maker, engine
@@ -9,10 +11,23 @@ from app.domain.users import Users
 from app.domain.categories import Categories
 from app.domain.products import Products
 from app.domain.orders import Orders
+from fastapi.testclient import TestClient
+from httpx import AsyncClient
+from app.main import app as fastapi_app
+
 
 # $env:MODE = "TEST"; pytest
+os.environ["MODE"] = "TEST"
 
-@pytest.fixture(scope="session", autouse=True)
+
+@pytest.fixture(scope="session")
+def event_loop(request):
+    loop = asyncio.get_event_loop_policy().new_event_loop()
+    yield loop
+    loop.close()
+
+
+@pytest.fixture(scope="session")
 async def prepare_database():
     assert settings.MODE == "TEST"
 
@@ -44,12 +59,8 @@ async def prepare_database():
         await session.execute(add_orders)
 
         await session.commit()
-
-
-@pytest.fixture(scope="session")
-def event_loop(request):
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
     
+@pytest.fixture(scope="function")
+async def async_client():
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        yield ac
