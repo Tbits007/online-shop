@@ -17,7 +17,6 @@ from app.main import app as fastapi_app
 
 
 # $env:MODE = "TEST"; pytest
-os.environ["MODE"] = "TEST"
 
 
 @pytest.fixture(scope="session")
@@ -59,6 +58,7 @@ async def prepare_database():
         await session.execute(add_orders)
 
         await session.commit()
+    
     
 @pytest.fixture(scope="function")
 async def async_client():
