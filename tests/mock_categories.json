@@ -1,0 +1,52 @@
+[
+    {
+      "id": "c3343c5b-7a3d-45a1-96ea-8bcfbd9f3f3d",
+      "name": "Electronics",
+      "description": "All kinds of electronic devices and gadgets"
+    },
+    {
+      "id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "name": "Books",
+      "description": "A variety of books across different genres"
+    },
+    {
+      "id": "59d2118d-a509-4037-acd4-9d81e2c67cf3",
+      "name": "Clothing",
+      "description": "Fashionable clothing for men, women, and children"
+    },
+    {
+      "id": "a2a86ef6-e079-493b-8b9d-421bd014b79c",
+      "name": "Home Appliances",
+      "description": "Appliances for daily home use"
+    },
+    {
+      "id": "fbe9b00e-9efb-48ed-b46c-87cd9e4bd7db",
+      "name": "Toys",
+      "description": "Toys and games for children of all ages"
+    },
+    {
+      "id": "fcfda72f-2566-4b96-8e89-cae3ca6eb123",
+      "name": "Sports Equipment",
+      "description": "Equipment and accessories for various sports"
+    },
+    {
+      "id": "7894a2f5-583a-4de7-a703-295745d9f9bc",
+      "name": "Beauty & Personal Care",
+      "description": "Products for beauty and self-care"
+    },
+    {
+      "id": "9bd7ce37-bc9d-425d-a6f0-caad33cad9f5",
+      "name": "Automotive",
+      "description": "Car parts and accessories"
+    },
+    {
+      "id": "973e3c4d-7ac7-405d-be90-110a46431bbc",
+      "name": "Furniture",
+      "description": "Furniture for home and office"
+    },
+    {
+      "id": "1a3244de-7a99-413c-8e6f-dc0fa530d7d6",
+      "name": "Groceries",
+      "description": "Daily grocery items and food products"
+    }
+  ]

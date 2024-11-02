@@ -1,0 +1,130 @@
+[
+    {
+      "is_active": true,
+      "id": "540b48a6-aab9-4c17-80ac-8510fd6f4d1e",
+      "email": "john.doe@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "52c9e4e3-860d-4418-9030-cce1fd2d97e1",
+      "email": "jane.smith@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "07f2ff81-e62f-43d5-8601-a7e727d8702d",
+      "email": "alex.johnson@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "0650ae39-618d-4806-9259-6b479f7cecd5",
+      "email": "emily.davis@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "d1c94d97-9269-438e-9011-d1588cdf6622",
+      "email": "michael.brown@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "89b33757-056b-4320-a167-bb5b09134e00",
+      "email": "sarah.wilson@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "066a368e-9207-4ae7-9f88-6a46ddb351f1",
+      "email": "laura.taylor@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "e5e9a994-347a-407d-a1cb-1ae99f255a6a",
+      "email": "james.anderson@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "b611dfcd-0dd8-4280-9ff9-c90104947487",
+      "email": "olivia.martinez@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "d49f5276-3a25-4fdd-933a-a20d60f7a058",
+      "email": "user1@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "3d90525e-eb5e-4ea9-805e-6012175efdf9",
+      "email": "user11@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "5021883a-c530-4659-895d-d11f3d323002",
+      "email": "us543er@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "7974738e-d6c2-4a39-9934-02d514cc0f51",
+      "email": "user@example.com",
+      "is_verified": false,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "eb0a23b8-e444-407e-87bc-cc3331a0acff",
+      "email": "jong@example.com",
+      "is_verified": false,
+      "hashed_password": "$argon2id$v=19$m=65536,t=3,p=4$baIcBwqKj9AXGhF8pUvSPQ$fR8/X5eD/eSrYnUpapkmQj00RHV71jVQR6OvJQbPRco",
+      "is_superuser": false
+    },
+    {
+      "is_active": true,
+      "id": "82070cc6-e034-44c8-b451-6cba5a6c4c61",
+      "email": "admin@admin.com",
+      "is_verified": true,
+      "hashed_password": "$argon2id$v=19$m=65536,t=3,p=4$HO6yf3B+/BIqgUJyTfmfxg$eXg23A1Yq8giVkiuAX7l5Xa1C1/D1+jJsVXkB9lZ+fk",
+      "is_superuser": true
+    },
+    {
+      "is_active": true,
+      "id": "5ce10cf9-4a5a-4eb9-8040-65f1b40262ab",
+      "email": "david.miller@example.com",
+      "is_verified": true,
+      "hashed_password": "default_password_hash",
+      "is_superuser": false
+    }
+  ]

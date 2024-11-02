@@ -11,7 +11,6 @@ from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from app.infrastructure.database import engine
 
-
 # uvicorn app.main:app --reload
 # celery -A app.tasks.celery:celery worker --loglevel=INFO --pool=solo
 # celery -A app.infrastructure.tasks.celery_app:celery flower

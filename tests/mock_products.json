@@ -1,0 +1,227 @@
+[
+    {
+      "price": 799.99,
+      "category_id": "c3343c5b-7a3d-45a1-96ea-8bcfbd9f3f3d",
+      "currency": "USD",
+      "description": "Latest model smartphone with a high-resolution display",
+      "id": "a98c9cd4-eb66-4bc8-8c55-e6bb66ff2f7b",
+      "name": "Smartphone",
+      "stock": 50
+    },
+    {
+      "price": 1200,
+      "category_id": "c3343c5b-7a3d-45a1-96ea-8bcfbd9f3f3d",
+      "currency": "USD",
+      "description": "High-performance laptop for gaming and productivity",
+      "id": "bb9a30bf-c59e-4d20-9589-9e9730614d58",
+      "name": "Laptop",
+      "stock": 30
+    },
+    {
+      "price": 499.99,
+      "category_id": "c3343c5b-7a3d-45a1-96ea-8bcfbd9f3f3d",
+      "currency": "USD",
+      "description": "Portable tablet for entertainment and work",
+      "id": "fa9ee6d8-9e40-46fe-ba89-b39cb33fa5e0",
+      "name": "Tablet",
+      "stock": 40
+    },
+    {
+      "price": 199.99,
+      "category_id": "c3343c5b-7a3d-45a1-96ea-8bcfbd9f3f3d",
+      "currency": "USD",
+      "description": "Wireless headphones with noise-cancelling feature",
+      "id": "3c14aeed-ac71-4a04-8773-e61471fd0f6d",
+      "name": "Headphones",
+      "stock": 100
+    },
+    {
+      "price": 149.99,
+      "category_id": "c3343c5b-7a3d-45a1-96ea-8bcfbd9f3f3d",
+      "currency": "USD",
+      "description": "Smartwatch with fitness tracking and notifications",
+      "id": "438b60b4-0893-4663-b421-bb9278532beb",
+      "name": "Smartwatch",
+      "stock": 75
+    },
+    {
+      "price": 25.99,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "USD",
+      "description": "An inspiring non-fiction book",
+      "id": "7dfc6434-f98d-4cca-a988-0521dc4d3e6e",
+      "name": "Non-fiction Book",
+      "stock": 120
+    },
+    {
+      "price": 12.99,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "USD",
+      "description": "A colorful book for children",
+      "id": "964cb104-6519-40ff-8eee-3ad9c7d66e81",
+      "name": "Childrens Book",
+      "stock": 200
+    },
+    {
+      "price": 29.99,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "USD",
+      "description": "A book of recipes from around the world",
+      "id": "59cd40a0-e721-4878-95cd-7bc81b1eb2ba",
+      "name": "Cookbook",
+      "stock": 80
+    },
+    {
+      "price": 35,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "USD",
+      "description": "A book explaining the mysteries of the universe",
+      "id": "c66f47ab-6d83-4dfb-97b3-9e98e6ff5a33",
+      "name": "Science Book",
+      "stock": 60
+    },
+    {
+      "price": 25,
+      "category_id": "59d2118d-a509-4037-acd4-9d81e2c67cf3",
+      "currency": "USD",
+      "description": "Comfortable cotton t-shirt for men",
+      "id": "84cbd6cb-7b24-426b-a561-b880c7ac7185",
+      "name": "T-shirt",
+      "stock": 150
+    },
+    {
+      "price": 50,
+      "category_id": "59d2118d-a509-4037-acd4-9d81e2c67cf3",
+      "currency": "USD",
+      "description": "Stylish denim jeans",
+      "id": "4785c357-8100-4b17-89cf-2907d67cfeb7",
+      "name": "Jeans",
+      "stock": 100
+    },
+    {
+      "price": 120,
+      "category_id": "59d2118d-a509-4037-acd4-9d81e2c67cf3",
+      "currency": "USD",
+      "description": "Warm winter jacket",
+      "id": "7b5a4203-da0d-479a-a80f-b5096a45442e",
+      "name": "Jacket",
+      "stock": 60
+    },
+    {
+      "price": 75,
+      "category_id": "59d2118d-a509-4037-acd4-9d81e2c67cf3",
+      "currency": "USD",
+      "description": "Elegant evening dress for women",
+      "id": "d6173109-75c2-4b81-9c70-7ef4ee167f2a",
+      "name": "Dress",
+      "stock": 90
+    },
+    {
+      "price": 55,
+      "category_id": "59d2118d-a509-4037-acd4-9d81e2c67cf3",
+      "currency": "USD",
+      "description": "Comfortable running shoes",
+      "id": "b3cec91f-988f-4feb-b472-68e5c51499d4",
+      "name": "Shoes",
+      "stock": 80
+    },
+    {
+      "price": 99.99,
+      "category_id": "a2a86ef6-e079-493b-8b9d-421bd014b79c",
+      "currency": "USD",
+      "description": "High-speed blender for smoothies and soups",
+      "id": "541d7d88-6cef-49fe-a210-c978ef012cfd",
+      "name": "Blender",
+      "stock": 40
+    },
+    {
+      "price": 89.99,
+      "category_id": "a2a86ef6-e079-493b-8b9d-421bd014b79c",
+      "currency": "USD",
+      "description": "Compact microwave oven",
+      "id": "f7de988d-c198-4bce-baf9-919fccf3b7aa",
+      "name": "Microwave",
+      "stock": 25
+    },
+    {
+      "price": 150,
+      "category_id": "a2a86ef6-e079-493b-8b9d-421bd014b79c",
+      "currency": "USD",
+      "description": "Powerful vacuum cleaner for all surfaces",
+      "id": "65499daa-7e8a-4989-bf58-b0129c42d5bc",
+      "name": "Vacuum Cleaner",
+      "stock": 20
+    },
+    {
+      "price": 299.99,
+      "category_id": "a2a86ef6-e079-493b-8b9d-421bd014b79c",
+      "currency": "USD",
+      "description": "Portable air conditioner with remote control",
+      "id": "6a5c8e44-c68f-4ea7-b4c5-d629ddd20a49",
+      "name": "Air Conditioner",
+      "stock": 15
+    },
+    {
+      "price": 899.99,
+      "category_id": "a2a86ef6-e079-493b-8b9d-421bd014b79c",
+      "currency": "USD",
+      "description": "Large capacity refrigerator with freezer",
+      "id": "a59cd5e9-5541-41c0-8d9e-da644aa3fbf2",
+      "name": "Refrigerator",
+      "stock": 10
+    },
+    {
+      "price": 54,
+      "category_id": "1a3244de-7a99-413c-8e6f-dc0fa530d7d6",
+      "currency": "dollar",
+      "description": "sdfsdfsdfsd",
+      "id": "4291bc32-34db-4c58-b605-c9d237fef510",
+      "name": "croer",
+      "stock": 12
+    },
+    {
+      "price": 0,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "string",
+      "description": "ot ashota",
+      "id": "9dad3057-86dc-45cc-9894-53a420f2616e",
+      "name": "abrikosi",
+      "stock": 0
+    },
+    {
+      "price": 0,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "string",
+      "description": "ot ashota",
+      "id": "ef061fbb-af43-40ae-a23e-40afaa03598d",
+      "name": "abrikosi",
+      "stock": 0
+    },
+    {
+      "price": 0,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "string",
+      "description": "ot ashota",
+      "id": "d24b086d-c431-4457-9877-07d535d455fd",
+      "name": "abrikosi",
+      "stock": 0
+    },
+    {
+      "price": 0,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "string",
+      "description": "ot ashota",
+      "id": "2fc0868e-41ac-4c0c-9d77-0e5688315099",
+      "name": "abrikosi",
+      "stock": 0
+    },
+    {
+      "price": 0,
+      "category_id": "e69eaeda-aea3-46c2-b387-87c5dae9998f",
+      "currency": "string",
+      "description": "ot ashota",
+      "id": "a51fe30c-dfb5-49f1-be07-0e3a32099b98",
+      "name": "abrikosi",
+      "stock": 0
+    }
+  ]
