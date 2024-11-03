@@ -1,14 +1,12 @@
-import os
 import pytest
+import pytest_asyncio
 from sqlalchemy import String, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.repositories.base_repo import BaseRepository
-from app.infrastructure.database import Base, async_session_maker, engine
-from typing import AsyncGenerator
+from app.infrastructure.database import Base
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-from app.infrastructure.config import settings
 
 
 # Пример тестовой модели для тестирования
@@ -19,28 +17,14 @@ class TestModel(Base):
     name: Mapped[str] = mapped_column(String, nullable=False)
 
 
-@pytest.fixture
-async def session() -> AsyncGenerator[AsyncSession, None]:
-    async with async_session_maker() as session_:
-        yield session_
-
-
-@pytest.fixture
-def repository(session: AsyncSession) -> BaseRepository[TestModel]:
+@pytest_asyncio.fixture
+async def repository(session: AsyncSession) -> BaseRepository[TestModel]:
     repo = BaseRepository[TestModel](session)
     repo.model = TestModel
     return repo
 
 
-@pytest.fixture(scope="function", autouse=True)
-async def setup_database():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    yield
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-
-
+@pytest.mark.asyncio
 async def test_get_all(repository: BaseRepository[TestModel], session: AsyncSession):
 
     # Добавляем тестовые данные
@@ -58,6 +42,7 @@ async def test_get_all(repository: BaseRepository[TestModel], session: AsyncSess
     assert results[1].name == "Entity2"
 
 
+@pytest.mark.asyncio
 async def test_get_by_id(repository: BaseRepository[TestModel], session: AsyncSession):
     # Добавляем тестовую запись
     entity = TestModel(name="Entity")
@@ -73,6 +58,7 @@ async def test_get_by_id(repository: BaseRepository[TestModel], session: AsyncSe
     assert result.name == "Entity"
 
 
+@pytest.mark.asyncio
 async def test_create(repository: BaseRepository[TestModel], session: AsyncSession):
     # Создаем новую запись
     new_entity = TestModel(name="New Entity")
@@ -88,6 +74,7 @@ async def test_create(repository: BaseRepository[TestModel], session: AsyncSessi
     assert db_result is not None
 
 
+@pytest.mark.asyncio
 async def test_update(repository: BaseRepository[TestModel], session: AsyncSession):
     # Добавляем тестовую запись
     entity = TestModel(name="Old Name")
@@ -102,6 +89,7 @@ async def test_update(repository: BaseRepository[TestModel], session: AsyncSessi
     assert result.name == "Updated Name"
 
 
+@pytest.mark.asyncio
 async def test_delete(repository: BaseRepository[TestModel], session: AsyncSession):
     # Добавляем тестовую запись
     entity = TestModel(name="Entity to Delete")

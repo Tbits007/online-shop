@@ -1,10 +1,12 @@
-# import asyncio
-import asyncio
 from datetime import datetime
 import json
 import os
-import pytest
+from typing import AsyncGenerator
+import pytest_asyncio
 from sqlalchemy import insert
+
+os.environ["MODE"] = "TEST"
+
 from app.infrastructure.database import Base, async_session_maker, engine
 from app.infrastructure.config import settings
 from app.domain.users import Users
@@ -14,28 +16,21 @@ from app.domain.orders import Orders
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from app.main import app as fastapi_app
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 # $env:MODE = "TEST"; pytest
 
 
-@pytest.fixture(scope="session")
-def event_loop(request):
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
-
-@pytest.fixture(scope="session")
+@pytest_asyncio.fixture(loop_scope="session", autouse=True)
 async def prepare_database():
     assert settings.MODE == "TEST"
-
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
     def open_mock_json(model: str):
-        with open(f"tests/mock_{model}.json", encoding="utf-8") as file:
+        with open(f"tests/data_for_test_db/mock_{model}.json", encoding="utf-8") as file:
             return json.load(file)
     
     users = open_mock_json("users")
@@ -58,9 +53,24 @@ async def prepare_database():
         await session.execute(add_orders)
 
         await session.commit()
-    
-    
-@pytest.fixture(scope="function")
-async def async_client():
-    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
-        yield ac
+
+
+@pytest_asyncio.fixture
+async def session() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session_maker() as session_:
+        yield session_
+
+
+@pytest_asyncio.fixture(autouse=True)
+async def setup_database():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+
+
+# @pytest.fixture(scope="function")
+# async def async_client():
+#     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+#         yield ac
