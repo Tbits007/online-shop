@@ -18,10 +18,10 @@ class OrderCreateSchema(BaseModel):
 
 
 class OrderUpdateSchema(BaseModel):
-    user_id: UUID
-    status: StatusChoice
-    product_id: UUID
-    total_price: float
+    user_id: UUID 
+    status: StatusChoice 
+    product_id: UUID 
+    total_price: float 
 
 
 class OrderResponseSchema(BaseModel):
