@@ -1,98 +1,48 @@
-from typing import TypeVar
 import pytest
+import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.repositories.base_repo import BaseRepository
-from app.infrastructure.database import Base, async_session_maker
+from app.domain.orders import Orders, Status
 from app.domain.users import Users
-from app.domain.categories import Categories
-from app.domain.products import Products
-from app.domain.orders import Orders
-from typing import AsyncGenerator
+from app.repositories.users_repo import UsersRepository
 
 
-# ModelType = TypeVar("ModelType", bound=Base)
+@pytest_asyncio.fixture
+async def users_repository(session: AsyncSession) -> UsersRepository:
+    repo = UsersRepository(session)
+    return repo
 
 
-# @pytest.fixture
-# async def session() -> AsyncGenerator[AsyncSession, None]:
-#     async with async_session_maker() as session_:
-#         yield session_
-
-
-# # Фикстура для репозитория, принимает сессию как зависимость
-# @pytest.fixture(
-#         scope="function",
-#         params=[Users,
-#                 Categories,
-#                 Orders,
-#                 Products,
-#                ]
-#         )
-# def repository(session: AsyncSession, request) -> BaseRepository[ModelType]:
-#     Model = request.param
-#     repo = BaseRepository[Model](session)
-#     repo.model = Model
-#     return repo
-
-
-# async def test_get_all(repository: BaseRepository[ModelType]):
-#     result = await repository.get_all()
-#     assert result is not None
-   
-
-# async def test_get_by_id(repository: BaseRepository[ModelType], session: AsyncSession):
-#     # Добавляем тестовую запись
-#     entity = TestModel(name="Entity")
-#     session.add(entity)
-#     await session.commit()
-
-#     # Выполняем метод get_by_id
-#     result = await repository.get_by_id(entity.id)
-
-#     # Проверяем, что получена правильная запись
-#     assert result is not None
-#     assert result.id == entity.id
-#     assert result.name == "Entity"
-
-# @pytest.mark.asyncio
-# async def test_create(repository: BaseRepository[TestModel], session: AsyncSession):
-#     # Создаем новую запись
-#     new_entity = TestModel(name="New Entity")
-#     result = await repository.create(new_entity)
-
-#     # Проверяем, что запись создана
-#     assert result.id == new_entity.id
-#     assert result.name == "New Entity"
-
-#     # Проверяем, что запись существует в базе данных
-#     query = select(TestModel).filter(TestModel.id == new_entity.id)
-#     db_result = (await session.execute(query)).scalar_one_or_none()
-#     assert db_result is not None
-
-# @pytest.mark.asyncio
-# async def test_update(repository: BaseRepository[TestModel], session: AsyncSession):
-#     # Добавляем тестовую запись
-#     entity = TestModel(name="Old Name")
-#     session.add(entity)
-#     await session.commit()
-
-#     # Обновляем запись
-#     updated_data = {"name": "Updated Name"}
-#     result = await repository.update(entity.id, updated_data)
-
-#     # Проверяем, что запись обновлена
-#     assert result.name == "Updated Name"
-
-# @pytest.mark.asyncio
-# async def test_delete(repository: BaseRepository[TestModel], session: AsyncSession):
-#     # Добавляем тестовую запись
-#     entity = TestModel(name="Entity to Delete")
-#     session.add(entity)
-#     await session.commit()
-
-#     # Удаляем запись
-#     await repository.delete(entity.id)
-
-#     # Проверяем, что запись удалена
-#     result = await repository.get_by_id(entity.id)
-#     assert result is None
+@pytest.mark.asyncio
+async def test_get_orders_by_user_id(users_repository: UsersRepository, session: AsyncSession):
+    # Создаём тестового пользователя
+    test_user = Users(email="test@example.com", hashed_password="hashed_pwd")
+    session.add(test_user)
+    await session.commit()
+    
+    # Создаем тестовые заказы для пользователя
+    order1 = Orders(
+        user_id=test_user.id,
+        status=Status.pending,
+        product_id="f7de988d-c198-4bce-baf9-919fccf3b7aa",
+        total_price=100.50,
+    )
+    order2 = Orders(
+        user_id=test_user.id,
+        status=Status.shipped,
+        product_id="f7de988d-c198-4bce-baf9-919fccf3b7aa",
+        total_price=200.75,
+    )
+    session.add_all([order1, order2])
+    await session.commit()
+    
+    # Вызываем метод get_orders_by_user_id
+    orders = await users_repository.get_orders_by_user_id(test_user.id)
+    
+    # Проверяем, что вернулись все заказы, связанные с пользователем
+    assert len(orders) == 2
+    assert orders[0].user_id == test_user.id
+    assert orders[1].user_id == test_user.id
+    assert orders[0].status == Status.pending
+    assert orders[1].status == Status.shipped
+    assert orders[0].total_price == 100.50
+    assert orders[1].total_price == 200.75
