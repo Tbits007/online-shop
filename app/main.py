@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI
 from fastapi.security import HTTPBearer
+from fastapi_versioning import VersionedFastAPI
 from app.api import users, categories, products, orders
 from app.infrastructure.admin_panel.veiws import UsersAdmin, CategoriesAdmin, ProductsAdmin, OrdersAdmin
 from app.infrastructure.auth import auth
@@ -29,6 +30,20 @@ app = FastAPI(
     dependencies=[Depends(http_bearer)],
 )
 
+# Подключение маршрутов
+app.include_router(auth.router)
+app.include_router(users.router)
+app.include_router(categories.router)
+app.include_router(products.router)
+app.include_router(orders.router)
+
+
+# Применяем версионирование
+app = VersionedFastAPI(app,
+    version_format='{major}',
+    prefix_format='/v{major}',
+)
+
 
 # Подключение админ-панели
 admin = Admin(app, engine)
@@ -38,13 +53,4 @@ admin.add_view(UsersAdmin)
 admin.add_view(CategoriesAdmin)
 admin.add_view(ProductsAdmin)
 admin.add_view(OrdersAdmin)
-
-
-# Подключение маршрутов
-app.include_router(auth.router)
-app.include_router(users.router)
-app.include_router(categories.router)
-app.include_router(products.router)
-app.include_router(orders.router)
-
 

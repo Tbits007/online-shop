@@ -1,4 +1,5 @@
 import asyncio
+from fastapi_versioning import version
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import APIRouter, Depends
 from app.domain.users import Users
@@ -24,6 +25,7 @@ router.include_router(
 
     
 @router.get("/")
+@version(1)
 @cache(expire=60)
 async def get_users(
     session: AsyncSession = Depends(get_session),
