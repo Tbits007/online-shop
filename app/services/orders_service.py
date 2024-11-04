@@ -1,13 +1,12 @@
 from uuid import UUID
+
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.domain.orders import Orders
 from app.repositories.orders_repo import OrdersRepository
-from app.schemas.orders_schemas import (
-    OrderCreateSchema,
-    OrderUpdateSchema,
-    StatusChoice,
-)
+from app.schemas.orders_schemas import (OrderCreateSchema, OrderUpdateSchema,
+                                        StatusChoice)
 
 
 class OrderService:
